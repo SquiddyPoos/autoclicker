@@ -1,12 +1,14 @@
 import mouse
 import keyboard
-import asyncio
+import multiprocessing as mp
+from functools import partial
+import time
 
-class AutoclickManager():
+class Autoclicker():
 
-    def __init__(self, cps, button):
-        self.delay = 1 / cps
-        self.button = button
+    def __init__(self):
+        self.delay = 1
+        self.button = "left"
         self.autoclick_task = None
 
     def set_cps(self, cps):
@@ -18,12 +20,13 @@ class AutoclickManager():
     def start_autoclick(self):
         if self.autoclick_task is not None:
             raise AutoclickError("Autoclicker already running!")
-        self.autoclick_task = asyncio.create_task(self.click())
+        self.autoclick_task = mp.Process(target=self.click, args=(self.delay, self.button))
+        self.autoclick_task.start()
 
     def stop_autoclick(self):
         if self.autoclick_task is None or self.autoclick_task == "Hold":
             raise AutoclickError("Autoclicker is not running!")
-        self.autoclick_task.cancel()
+        self.autoclick_task.kill()
         self.autoclick_task = None
 
     def hold_button(self):
@@ -38,10 +41,11 @@ class AutoclickManager():
         mouse.release(button = self.button)
         self.autoclick_task = None
 
-    def click(self):
+    def click(self, delay, button):
         while True:
-            await asyncio.sleep(self.delay)
-            mouse.click(button = self.button)
+            time.sleep(delay)
+            #mouse.click(button = button)
+            print("Click")
 
 
 class AutoclickError(Exception):
