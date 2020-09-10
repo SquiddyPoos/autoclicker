@@ -21,30 +21,29 @@ class App(object):
         rb1.place(x = 10, rely = 0.15, anchor = W)
         rb2 = Radiobutton(self.root, text = "Keyboard", variable = self.km, value = 1, command = self.set_disabled, activebackground = self.default_colour)
         rb2.place(x = 10, rely = 0.5, anchor = W)
-        frame1 = Frame(self.root, bd = 2, relief = RIDGE)
+        frame1 = Canvas(self.root, relief = FLAT)
         frame1.place(relx = 0.05, rely = 0.15, y = 13, relwidth = 0.9, relheight = 0.3, anchor = NW)
         self.init_mouse(frame1)
-        frame2 = Frame(self.root, bd = 2, relief = RIDGE)
+        frame2 = Canvas(self.root, bd = 2, relief = RIDGE)
         frame2.place(relx = 0.05, rely = 0.5, y = 13, relwidth = 0.9, relheight = 0.3, anchor = NW)
         self.init_kb(frame2)
 
-    def init_mouse(self, frame):
-        canvas = Canvas(frame)
-        canvas.place(relwidth = 1, relheight = 0.19, anchor = NW)
+    def init_mouse(self, canvas):
         self.root.update()
         w = canvas.winfo_width()
         h = canvas.winfo_height()
-        canvas.create_line(0, h, w, h, width = 5)
-        canvas.create_line(w/2, 0, w/2, h, width = 1)
+        canvas.create_rectangle(0, 0, w, h, width = 4)
+        canvas.create_line(0, 35, w, 35, width = 1)
+        canvas.create_line(w/2, 0, w/2, 35, width = 1)
         self.hold_click = IntVar()
-        hold = Radiobutton(frame, text = "Hold", variable = self.hold_click, value = 0, command = self.swap_frame, activebackground = self.default_colour)
-        hold.place(relx = 0.25, y = 5, anchor = N)
-        click = Radiobutton(frame, text = "Click", variable = self.hold_click, value = 1, command = self.swap_frame, activebackground = self.default_colour)
-        click.place(relx = 0.75, y = 5, anchor = N)
-        self.frame_mouse = Frame(frame)
-        self.frame_mouse.place(relwidth = 1, relheight = 0.8, rely = 0.2)
+        hold = Radiobutton(canvas, text = "Hold", variable = self.hold_click, value = 0, command = self.swap_frame, activebackground = self.default_colour)
+        hold.place(relx = 0.25, y = 7, anchor = N)
+        click = Radiobutton(canvas, text = "Click", variable = self.hold_click, value = 1, command = self.swap_frame, activebackground = self.default_colour)
+        click.place(relx = 0.75, y = 7, anchor = N)
+        #self.frame_mouse = Frame(canvas)
+        #self.frame_mouse.place(relwidth = 1, relheight = 0.8, rely = 0.2)
 
-    def init_kb(self, frame):
+    def init_kb(self, canvas):
         pass
 
     def set_disabled(self):
