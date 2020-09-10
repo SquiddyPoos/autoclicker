@@ -1,11 +1,12 @@
-import mouse
-import keyboard
 import multiprocessing as mp
-from functools import partial
 import time
+from functools import partial
 
-class Autoclicker():
+import keyboard
+import mouse
 
+
+class Autoclicker:
     def __init__(self):
         self.delay = 1
         self.button = "left"
@@ -32,19 +33,19 @@ class Autoclicker():
     def hold_button(self):
         if self.autoclick_task is not None:
             raise AutoclickError("Autoclicker already running!")
-        mouse.hold(button = self.button)
+        mouse.hold(button=self.button)
         self.autoclick_task = "Hold"
 
     def release_button(self):
-        if self.autoclick_task is None or type(self.autoclick_task) != type(''):
+        if self.autoclick_task is None or type(self.autoclick_task) != type(""):
             raise AutoclickError("Autoclicker is not running!")
-        mouse.release(button = self.button)
+        mouse.release(button=self.button)
         self.autoclick_task = None
 
     def click(self, delay, button):
         while True:
             time.sleep(delay)
-            #mouse.click(button = button)
+            # mouse.click(button = button)
             print("Click")
 
 
